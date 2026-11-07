@@ -69,28 +69,58 @@ build-cmake/ninja_test
 
 ## Generating documentation
 
-### Ninja Manual
+The documentation is a [Sphinx](https://www.sphinx-doc.org/) project
+written in reStructuredText and lives under `doc/`.
 
-The manual is a [Sphinx](https://www.sphinx-doc.org/) project written in
-reStructuredText. You must have Sphinx installed (`pip install -r
-doc/requirements.txt`), then do:
+### Ninja documentation (HTML)
 
-```
+If you have configured Ninja itself, the `manual` target creates a
+virtual environment under `build/venv`, installs the packages from
+`doc/requirements.txt` (including the Shibuya theme), and builds the
+HTML:
+
+```sh
 ./configure.py
 ninja manual
 ```
 
-Which will generate the HTML documentation under the configured build
-directory (`build/html/index.html` by default).
+The first run needs network access to install the packages; later runs
+reuse the environment. The entry point is `build/html/index.html`.
 
-To generate a PDF version of the manual, you must have a LaTeX toolchain
-installed, then do:
+To build the documentation without Ninja's wrapper, install the
+requirements into the environment that provides `sphinx-build`:
 
 ```sh
-sphinx-build -M latexpdf doc doc/_build/pdf
+pip install -r doc/requirements.txt
+sphinx-build -b html doc doc/_build/html
 ```
 
-Which will generate `doc/_build/pdf/latex/` containing the PDF.
+`uv` can also supply the packages on demand:
+
+```sh
+uv run --with-requirements doc/requirements.txt \
+    sphinx-build -b html doc doc/_build/html
+```
+
+### Ninja manual (PDF)
+
+The PDF manual requires a LaTeX toolchain (for example TeX Live) and is
+built with:
+
+```sh
+./configure.py
+ninja manual.pdf
+```
+
+This reuses the `build/venv` environment and writes the PDF to
+`build/pdf/latex/manual.pdf`.
+
+Without Ninja, generate the LaTeX sources and run `make`:
+
+```sh
+sphinx-build -b latex doc doc/_build/pdf/latex
+make -C doc/_build/pdf/latex
+```
 
 ### Doxygen documentation
 

@@ -193,43 +193,43 @@ When passed, it takes precedence over ``NINJA_STATUS``.
 The available variables and their ``NINJA_STATUS`` equivalents are:
 
 ``$started``
-   ``%s`` — The number of started edges.
+   ``%s`` — The number of started edges.
 
 ``$total``
-   ``%t`` — The total number of edges.
+   ``%t`` — The total number of edges.
 
 ``$progress``
-   ``%p`` — The percentage of finished edges.
+   ``%p`` — The percentage of finished edges.
 
 ``$running``
-   ``%r`` — The number of currently running edges.
+   ``%r`` — The number of currently running edges.
 
 ``$remaining``
-   ``%u`` — The number of remaining edges to start.
+   ``%u`` — The number of remaining edges to start.
 
 ``$finished``
-   ``%f`` — The number of finished edges.
+   ``%f`` — The number of finished edges.
 
 ``$rate``
-   ``%o`` — Overall rate of finished edges per second.
+   ``%o`` — Overall rate of finished edges per second.
 
 ``$current_rate``
-   ``%c`` — Current rate of finished edges per second.
+   ``%c`` — Current rate of finished edges per second.
 
 ``$elapsed_seconds``
-   ``%e`` — Elapsed time in seconds.
+   ``%e`` — Elapsed time in seconds.
 
 ``$eta_seconds``
-   ``%E`` — Remaining time (ETA) in seconds.
+   ``%E`` — Remaining time (ETA) in seconds.
 
 ``$elapsed``
-   ``%w`` — Elapsed time in [h:]mm:ss format.
+   ``%w`` — Elapsed time in [h:]mm:ss format.
 
 ``$eta``
-   ``%W`` — Remaining time (ETA) in [h:]mm:ss format.
+   ``%W`` — Remaining time (ETA) in [h:]mm:ss format.
 
 ``$predicted_progress``
-   ``%P`` — Percentage (in ``ppp%`` format) of time elapsed out of
+   ``%P`` — Percentage (in ``ppp%`` format) of time elapsed out of
    predicted total runtime.
 
 ``$description``

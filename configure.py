@@ -721,17 +721,52 @@ dot = n.build(built('graph.dot'), 'gendot', ['ninja', 'build.ninja'])
 n.build('graph.png', 'gengraph', dot)
 n.newline()
 
+n.comment('Create the virtualenv used to build the manual.')
+if platform.is_windows():
+    docs_sphinx = '$builddir/venv/Scripts/sphinx-build.exe'
+else:
+    docs_sphinx = '$builddir/venv/bin/sphinx-build'
+python_exe = sys.executable
+if ' ' in python_exe:
+    python_exe = '"%s"' % python_exe
+n.rule('venv',
+       command='%s $root/doc/setup_venv.py $builddir/venv $out' %
+               python_exe,
+       description='DOCS VENV $out')
+docs_venv = n.build(built('venv/.stamp'), 'venv',
+                    [doc('requirements.txt'), doc('setup_venv.py')])
+n.newline()
+
+docs_sources = [doc('conf.py'), src('version.cc'), doc('index.rst'),
+                doc('manual.rst'), doc('intro.rst'),
+                doc('using-ninja.rst'), doc('writing-ninja.rst'),
+                doc('more-details.rst'), doc('reference.rst'),
+                doc('dependencies.rst')]
+
 n.comment('Generate the manual using Sphinx.')
 n.rule('sphinx',
-       command='sphinx-build -q -b html -d $builddir/doctrees doc $builddir/html',
+       command='%s -q -b html -d $builddir/doctrees doc $builddir/html' %
+               docs_sphinx,
        description='SPHINX $out')
-manual = n.build(built('html/index.html'), 'sphinx',
-                 [doc('conf.py'), doc('index.rst'), doc('intro.rst'),
-                  doc('using-ninja.rst'), doc('writing-ninja.rst'),
-                  doc('more-details.rst'), doc('reference.rst'),
-                  doc('dependencies.rst')])
+manual = n.build(built('html/index.html'), 'sphinx', docs_sources,
+                 implicit=docs_venv)
 n.build('manual', 'phony',
         order_only=manual)
+n.newline()
+
+n.comment('Generate the PDF manual using Sphinx and LaTeX.')
+if platform.is_windows():
+    docs_make = 'cd $builddir/pdf/latex && make.bat'
+else:
+    docs_make = 'make -C $builddir/pdf/latex'
+n.rule('sphinx-pdf',
+       command='%s -q -b latex -d $builddir/doctrees-pdf doc '
+               '$builddir/pdf/latex && %s' % (docs_sphinx, docs_make),
+       description='SPHINX PDF $out')
+manual_pdf = n.build(built('pdf/latex/manual.pdf'), 'sphinx-pdf',
+                     docs_sources, implicit=docs_venv)
+n.build('manual.pdf', 'phony',
+        order_only=manual_pdf)
 
 n.comment('Generate Doxygen.')
 n.rule('doxygen',

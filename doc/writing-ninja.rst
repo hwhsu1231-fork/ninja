@@ -14,9 +14,9 @@ determined by file modification times. If you are familiar with Make,
 Ninja is very similar.
 
 A build file (default name: ``build.ninja``) provides a list of
-*rules* — short names for longer commands, like how to run the
-compiler — along with a list of *build* statements saying how to build
-files using the rules — which rule to apply to which inputs to produce
+*rules* — short names for longer commands, like how to run the
+compiler — along with a list of *build* statements saying how to build
+files using the rules — which rule to apply to which inputs to produce
 which outputs.
 
 Conceptually, ``build`` statements describe the dependency graph of your

@@ -20,7 +20,7 @@ Where other build systems are high-level languages, Ninja aims to be an
 assembler.
 
 Build systems get slow when they need to make decisions. When you are in
-an edit-compile cycle you want it to be as fast as possible — you want
+an edit-compile cycle you want it to be as fast as possible — you want
 the build system to do the minimum work necessary to figure out what
 needs to be built immediately.
 
