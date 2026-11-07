@@ -16,7 +16,7 @@
 /ninja_test
 /manifest_parser_perftest
 /graph.png
-/doc/manual.html
+/doc/_build/
 /doc/doxygen
 *.patch
 .DS_Store

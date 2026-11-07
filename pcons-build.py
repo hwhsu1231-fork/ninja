@@ -269,9 +269,9 @@ if build_binary:
     # `pcons install` (or `ninja install`) copies it there;
     # Use PCONS_INSTALL_PREFIX to set the prefix, default dist/.
     installed = project.Install("bin", [ninja])
-    # There's no man page; doc/manual.html would belong here too, but
-    # building it needs asciidoc, which the CMake build doesn't wire
-    # up either. Easy to add.
+    # There's no man page; the Sphinx-built HTML docs would belong here
+    # too, but building them needs Sphinx, which the CMake build doesn't
+    # wire up either. Easy to add.
     docs = project.Install("share/doc/ninja", ["COPYING", "README.md"])
     project.Alias("install", installed, docs)
 

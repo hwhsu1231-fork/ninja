@@ -10,7 +10,7 @@ Notes to myself on all the steps to make for a Ninja release.
    ```
 5. git checkout release; git merge master
 6. Fix version number in src/version.cc (it will likely conflict in the above)
-7. Fix version in doc/manual.asciidoc (exists only on release branch)
+7. Fix version in the manual sources under doc/ (exists only on release branch)
 8. commit, tag, push (don't forget to push --tags)
    ```
    git commit -am v1.5.0; git push origin release

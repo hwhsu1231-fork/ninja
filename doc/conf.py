@@ -13,5 +13,5 @@ root_doc = 'index'
 
 exclude_patterns = ['_build']
 
-html_theme = 'alabaster'
-html_title = 'The Ninja build system'
+html_theme = 'shibuya'
+html_title = 'Ninja'

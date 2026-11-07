@@ -3,9 +3,9 @@
 Ninja is a small build system with a focus on speed.
 https://ninja-build.org/
 
-See [the manual](https://ninja-build.org/manual.html) or
-`doc/manual.asciidoc` included in the distribution for background
-and more details.
+See [the manual](https://ninja-build.org/manual.html) or the Sphinx
+documentation sources under `doc/` included in the distribution for
+background and more details.
 
 Binaries for Linux, Mac and Windows are available on
   [GitHub](https://github.com/ninja-build/ninja/releases).
@@ -71,24 +71,26 @@ build-cmake/ninja_test
 
 ### Ninja Manual
 
-You must have `asciidoc` and `xsltproc` in your PATH, then do:
+The manual is a [Sphinx](https://www.sphinx-doc.org/) project written in
+reStructuredText. You must have Sphinx installed (`pip install -r
+doc/requirements.txt`), then do:
 
 ```
 ./configure.py
-ninja manual doc/manual.html
+ninja manual
 ```
 
-Which will generate `doc/manual.html`.
+Which will generate the HTML documentation under the configured build
+directory (`build/html/index.html` by default).
 
-To generate the PDF version of the manual, you must have `dblatext` in your PATH
-then do:
+To generate a PDF version of the manual, you must have a LaTeX toolchain
+installed, then do:
 
 ```sh
-./configure.py    # only if you didn't do it previously.
-ninja doc/manual.pdf
+sphinx-build -M latexpdf doc doc/_build/pdf
 ```
 
-Which will generate `doc/manual.pdf`.
+Which will generate `doc/_build/pdf/latex/` containing the PDF.
 
 ### Doxygen documentation
 

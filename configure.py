@@ -721,25 +721,17 @@ dot = n.build(built('graph.dot'), 'gendot', ['ninja', 'build.ninja'])
 n.build('graph.png', 'gengraph', dot)
 n.newline()
 
-n.comment('Generate the manual using asciidoc.')
-n.rule('asciidoc',
-       command='asciidoc -b docbook -d book -o $out $in',
-       description='ASCIIDOC $out')
-n.rule('xsltproc',
-       command='xsltproc --nonet doc/docbook.xsl $in > $out',
-       description='XSLTPROC $out')
-docbookxml = n.build(built('manual.xml'), 'asciidoc', doc('manual.asciidoc'))
-manual = n.build(doc('manual.html'), 'xsltproc', docbookxml,
-                 implicit=[doc('style.css'), doc('docbook.xsl')])
+n.comment('Generate the manual using Sphinx.')
+n.rule('sphinx',
+       command='sphinx-build -q -b html -d $builddir/doctrees doc $builddir/html',
+       description='SPHINX $out')
+manual = n.build(built('html/index.html'), 'sphinx',
+                 [doc('conf.py'), doc('index.rst'), doc('intro.rst'),
+                  doc('using-ninja.rst'), doc('writing-ninja.rst'),
+                  doc('more-details.rst'), doc('reference.rst'),
+                  doc('dependencies.rst')])
 n.build('manual', 'phony',
         order_only=manual)
-n.newline()
-
-n.rule('dblatex',
-       command='dblatex -q -o $out -p doc/dblatex.xsl $in',
-       description='DBLATEX $out')
-n.build(doc('manual.pdf'), 'dblatex', docbookxml,
-        implicit=[doc('dblatex.xsl')])
 
 n.comment('Generate Doxygen.')
 n.rule('doxygen',
